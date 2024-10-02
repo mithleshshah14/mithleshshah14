@@ -21,5 +21,5 @@ I am working on ecommerce application.<br>I am looking to collaborate on develop
 ---
 [![](https://visitcount.itsvg.in/api?id=mithleshshah14&icon=0&color=0)](https://visitcount.itsvg.in)
 
-## Snake eating my contribution grapgh
+## Snake eating my contribution graph
 ![snake gif](https://github.com/mithleshshah14/mithleshshah14/blob/output/github-contribution-grid-snake-dark.svg)
