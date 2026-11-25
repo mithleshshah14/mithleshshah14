@@ -42,22 +42,30 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  # Stats card (counts private work too, numbers only), language mix, made daily with a read-only
-  # token and pushed to the output branch AFTER the snake job (that one replaces the branch contents).
-  metrics:
-    needs: generate
+  # The same dark stats + languages cards as before, but made with a read-only token so private work counts
+  # (numbers only). Committed to main/profile/; pushes made with GITHUB_TOKEN don't start this workflow again.
+  cards:
     permissions:
       contents: write
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: lowlighter/metrics@latest
+      - uses: actions/checkout@v6
+      - uses: stats-organization/github-readme-stats-action@v2
         with:
-          filename: metrics.svg
+          card: stats
+          options: theme=dark&show_icons=true&count_private=true&include_all_commits=true
+          path: profile/stats.svg
           token: ${{ secrets.METRICS_TOKEN }}
-          committer_token: ${{ secrets.GITHUB_TOKEN }}
-          committer_branch: output
-          template: classic
-          base: header, activity, community, repositories
-          plugin_languages: yes
-          plugin_languages_details: percentage
+      - uses: stats-organization/github-readme-stats-action@v2
+        with:
+          card: top-langs
+          options: theme=dark&layout=compact&langs_count=8
+          path: profile/top-langs.svg
+          token: ${{ secrets.METRICS_TOKEN }}
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add profile/*.svg
+          git commit -m "Update stats cards" || exit 0
+          git push
