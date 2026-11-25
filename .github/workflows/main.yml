@@ -42,7 +42,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  # Stats card (counts private work too, numbers only), language mix and achievements, made daily with a read-only
+  # Stats card (counts private work too, numbers only), language mix, made daily with a read-only
   # token and pushed to the output branch AFTER the snake job (that one replaces the branch contents).
   metrics:
     needs: generate
@@ -61,6 +61,3 @@ jobs:
           base: header, activity, community, repositories
           plugin_languages: yes
           plugin_languages_details: percentage
-          plugin_achievements: yes
-          plugin_achievements_display: compact
-          plugin_achievements_threshold: B
